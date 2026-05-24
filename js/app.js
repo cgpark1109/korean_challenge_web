@@ -249,6 +249,145 @@ document.addEventListener('DOMContentLoaded', () => {
   App.bindTtsButtons();
 });
 
+/** Notice system: load notice.json (popup + banner) */
+async function loadNotice() {
+  try {
+    const res = await fetch('./notice.json?v=' + Date.now());
+    const data = await res.json();
+
+    if (data.popup?.active) {
+      const seen = localStorage.getItem('notice_seen_' + data.popup.version);
+      if (!seen) {
+        showNoticePopup(data.popup);
+      }
+    }
+
+    if (data.banner?.active) {
+      showNoticeBanner(data.banner);
+    }
+  } catch (e) {
+    console.log('Notice load failed:', e);
+  }
+}
+
+function showNoticePopup(notice) {
+  if (document.querySelector('.notice-overlay')) return;
+
+  const overlay = document.createElement('div');
+  overlay.className = 'notice-overlay';
+  overlay.style.cssText = `
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: flex; align-items: center;
+    justify-content: center; z-index: 9999;
+    padding: 20px; box-sizing: border-box;
+  `;
+
+  const card = document.createElement('div');
+  card.style.cssText = `
+    background: #F5F0E8;
+    border: 1px solid #C9B99A;
+    border-radius: 16px;
+    padding: 28px 24px;
+    max-width: 320px;
+    width: 100%;
+    text-align: center;
+  `;
+
+  const title = document.createElement('h3');
+  title.style.cssText =
+    'font-size: 18px; font-weight: 700; color: #3D2B1A; margin-bottom: 12px;';
+  title.textContent = notice.title;
+
+  const message = document.createElement('p');
+  message.style.cssText =
+    'font-size: 14px; color: #6B4F2A; line-height: 1.6; margin-bottom: 20px; white-space: pre-line;';
+  message.textContent = notice.message;
+
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.textContent = notice.button;
+  btn.style.cssText = `
+    background: #8B6914;
+    color: #FFF8E7;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 32px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    width: 100%;
+    touch-action: manipulation;
+  `;
+  btn.addEventListener('click', () => closeNoticePopup(notice.version));
+
+  card.appendChild(title);
+  card.appendChild(message);
+  card.appendChild(btn);
+  overlay.appendChild(card);
+  document.body.appendChild(overlay);
+}
+
+function closeNoticePopup(version) {
+  localStorage.setItem('notice_seen_' + version, 'true');
+  document.querySelector('.notice-overlay')?.remove();
+}
+
+function showNoticeBanner(banner) {
+  if (document.getElementById('notice-banner')) return;
+
+  const bannerEl = document.createElement('div');
+  bannerEl.id = 'notice-banner';
+  bannerEl.style.cssText = `
+    background: #EDE5D5;
+    border-bottom: 1px solid #C9B99A;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13px;
+    color: #3D2B1A;
+    touch-action: manipulation;
+  `;
+
+  const msg = document.createElement('span');
+  msg.textContent = banner.message;
+
+  const closeBtn = document.createElement('button');
+  closeBtn.type = 'button';
+  closeBtn.textContent = '\u2715';
+  closeBtn.style.cssText = `
+    background: none;
+    border: none;
+    color: #9B8B7A;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 0 4px;
+    touch-action: manipulation;
+  `;
+  closeBtn.addEventListener('click', () => bannerEl.remove());
+
+  bannerEl.appendChild(msg);
+  bannerEl.appendChild(closeBtn);
+
+  const header =
+    document.querySelector('.home__header') ||
+    document.querySelector('.home-header');
+  if (header) {
+    header.insertAdjacentElement('afterend', bannerEl);
+    return;
+  }
+
+  const home = document.querySelector('.home');
+  if (home) {
+    home.insertBefore(bannerEl, home.firstChild);
+    return;
+  }
+
+  document.body.prepend(bannerEl);
+}
+
 if (typeof module !== 'undefined') {
   module.exports = { App, FlutterBridge, navigate };
 }

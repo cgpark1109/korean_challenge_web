@@ -1,0 +1,21 @@
+{
+  "_usage": {
+    "popup.active_true": "Show popup on load (if user has not seen this version)",
+    "popup.active_false": "Hide popup",
+    "popup.version": "Change version to show popup again to users who already dismissed it",
+    "banner.active_true": "Show top banner on home",
+    "banner.active_false": "Hide banner"
+  },
+  "popup": {
+    "active": true,
+    "title": "Welcome!",
+    "message": "Learn Korean - Hangul is now available!\nMaster consonants, vowels, and basic words step by step.",
+    "button": "Let's start!",
+    "version": "1.0"
+  },
+  "banner": {
+    "active": true,
+    "message": "🎉 Now available! Start learning Hangul today.",
+    "link": ""
+  }
+}
