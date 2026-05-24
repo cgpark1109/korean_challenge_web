@@ -1,0 +1,2 @@
+# Cloudflare Pages — SPA fallback (실제 파일이 있으면 해당 파일 우선 서빙)
+/* /index.html 200

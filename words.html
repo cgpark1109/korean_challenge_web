@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#F5F0E8">
+  <title>Basic Words - Learn Korean</title>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/category-study.css">
+</head>
+<body>
+  <div class="category-page">
+    <header class="category-page__header">
+      <a href="index.html" class="category-page__back">&#8592; Home</a>
+      <h1 class="category-page__title" id="page-title">Basic Words</h1>
+    </header>
+    <div id="content" class="category-page__content"></div>
+  </div>
+  <script src="js/hangul-data.js"></script>
+  <script src="js/tts.js"></script>
+  <script src="js/category-study.js"></script>
+  <script>
+    CategoryStudy.init({
+      title: '\uAE30\uBCF8 \uB2E8\uC5B4 Basic Words',
+      fromPage: 'words.html',
+      mode: 'words',
+      getItems: () => HangulData.words,
+    });
+  </script>
+</body>
+</html>

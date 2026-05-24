@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#F5F0E8">
+  <title>Learn Korean - Hangul</title>
+  <link rel="stylesheet" href="css/base.css">
+  <style>
+    .stroke-page {
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+      padding: 1rem 1.25rem;
+      background: var(--bg);
+    }
+
+    .stroke-page__info {
+      text-align: center;
+      margin-bottom: 1.25rem;
+    }
+
+    .stroke-page__char {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.2;
+    }
+
+    .stroke-page__roman {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--gold);
+      margin-top: 0.25rem;
+    }
+
+    .stroke-page__sound {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin-top: 0.35rem;
+      line-height: 1.4;
+      padding: 0 0.5rem;
+    }
+
+    .stroke-page__canvas-wrap {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+    }
+
+    #stroke-canvas {
+      width: 280px;
+      height: 280px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      touch-action: none;
+      cursor: crosshair;
+    }
+
+    .stroke-page__toolbar {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: auto;
+    }
+
+    .stroke-page__btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      padding: 12px 10px;
+      font-size: 0.9rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      color: var(--text-secondary);
+    }
+
+    .stroke-page__btn:hover {
+      border-color: var(--gold);
+      color: var(--text-primary);
+    }
+
+    .stroke-page__btn--done {
+      grid-column: 1 / -1;
+      background: var(--gold);
+      color: #FFF8E7;
+      border-color: var(--gold);
+      font-weight: 500;
+      font-size: 1rem;
+    }
+
+    .stroke-page__btn--done:hover {
+      filter: brightness(1.05);
+    }
+  </style>
+</head>
+<body>
+  <div class="stroke-page">
+    <header class="stroke-page__info">
+      <p class="stroke-page__char" id="info-char">?</p>
+      <p class="stroke-page__roman" id="info-roman">g/k</p>
+      <p class="stroke-page__sound" id="info-sound"></p>
+    </header>
+
+    <div class="stroke-page__canvas-wrap">
+      <canvas
+        id="stroke-canvas"
+        width="280"
+        height="280"
+        aria-label="Stroke writing practice canvas"
+      ></canvas>
+    </div>
+
+    <footer class="stroke-page__toolbar">
+      <button type="button" class="stroke-page__btn" id="btn-clear">&#128465; Clear</button>
+      <button type="button" class="stroke-page__btn" id="btn-show">&#128065; Show me</button>
+      <button type="button" class="stroke-page__btn" id="btn-listen">&#128266; Listen</button>
+      <button type="button" class="stroke-page__btn stroke-page__btn--done" id="btn-done">&#10003; Done</button>
+    </footer>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script src="js/hangul-data.js"></script>
+  <script src="js/tts.js"></script>
+  <script src="js/stroke-canvas.js"></script>
+  <script>
+    (async function () {
+      const ALL_ITEMS = [
+        ...HangulData.consonants,
+        ...HangulData.vowels,
+        ...HangulData.syllables,
+        ...HangulData.words,
+      ];
+
+      function findItem(char) {
+        return ALL_ITEMS.find((item) => item.char === char) || null;
+      }
+
+      function getSoundText(item) {
+        if (!item) return '';
+        if (item.sound) return item.sound;
+        if (item.meaning) return item.meaning;
+        return '';
+      }
+
+      const charParam = decodeURIComponent(App.getParam('char', '\u3131'));
+      const item = findItem(charParam) || {
+        char: charParam,
+        roman: '',
+        sound: 'Practice writing this character',
+      };
+
+      document.getElementById('info-char').textContent = item.char;
+      document.getElementById('info-roman').textContent = item.roman || '';
+      document.getElementById('info-sound').textContent = getSoundText(item);
+
+      const canvas = document.getElementById('stroke-canvas');
+      const api = StrokeCanvas.init(canvas, { char: item.char });
+
+      document.getElementById('btn-clear').addEventListener('click', () => {
+        api.clear();
+      });
+
+      document.getElementById('btn-show').addEventListener('click', () => {
+        api.showMe();
+      });
+
+      document.getElementById('btn-listen').addEventListener('click', () => {
+        TTS.speak(item.char);
+      });
+
+      document.getElementById('btn-done').addEventListener('click', () => {
+        const from = App.getParam('from');
+        if (from) {
+          navigate(from);
+        } else if (document.referrer && new URL(document.referrer).pathname !== location.pathname) {
+          history.back();
+        } else {
+          navigate('index.html');
+        }
+      });
+
+      await TTS.init();
+      TTS.speak(item.char);
+    })();
+  </script>
+</body>
+</html>

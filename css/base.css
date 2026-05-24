@@ -1,0 +1,223 @@
+/* Learn Korean - Hangul ????? ??? ??? (base) */
+
+:root {
+  --bg: #F5F0E8;
+  --card-bg: #EDE5D5;
+  --border: #C9B99A;
+  --gold: #8B6914;
+  --green: #5C7A3E;
+  --red: #8B2020;
+  --text-primary: #3D2B1A;
+  --text-secondary: #6B4F2A;
+  --text-muted: #9B8B7A;
+  --correct-bg: #5C7A3E;
+  --correct-text: #E8F0DC;
+  --wrong-bg: #8B2020;
+  --wrong-text: #F5D5D5;
+  --radius: 12px;
+  --radius-sm: 8px;
+
+  /* components.css ??? ?? */
+  --obang-red: var(--red);
+  --obang-blue: #2b4c7e;
+  --obang-yellow: var(--gold);
+  --obang-white: var(--bg);
+  --obang-black: var(--text-primary);
+  --hanji: var(--bg);
+  --hanji-shadow: var(--card-bg);
+  --ink: var(--text-primary);
+  --ink-muted: var(--text-muted);
+  --accent: var(--red);
+  --accent-secondary: var(--green);
+  --radius-lg: var(--radius);
+  --shadow: 0 4px 16px rgba(61, 43, 26, 0.1);
+  --font-sans: 'Segoe UI', sans-serif;
+  --font-serif: 'Segoe UI', sans-serif;
+}
+
+/* ?? ??????*/
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+a,
+button,
+.card,
+.category-card,
+.home__card {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.category-card > *,
+.home__card > * {
+  pointer-events: none;
+}
+
+html,
+body {
+  height: 100%;
+  font-family: 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text-primary);
+}
+
+body {
+  max-width: 480px;
+  margin: 0 auto;
+  padding-top: constant(safe-area-inset-top); /* iOS ?? */
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: 70px; /* ???? ??? */
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+}
+
+html {
+  font-size: 16px;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+a {
+  color: var(--green);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ?? ????? */
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem;
+}
+
+.btn-primary {
+  background: var(--gold);
+  color: #FFF8E7;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 14px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  width: 100%;
+}
+
+.btn-primary:hover {
+  filter: brightness(1.08);
+}
+
+.btn-primary:active {
+  filter: brightness(0.95);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 20px;
+  font-size: 15px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.btn-secondary:hover {
+  border-color: var(--gold);
+  color: var(--text-primary);
+}
+
+.btn-secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.progress-bar {
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--gold);
+  border-radius: 3px;
+  transition: width 0.3s;
+}
+
+/* ?????? (???? ??) */
+.app {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 1rem 0;
+}
+
+.app-header {
+  text-align: center;
+  padding: 1.5rem 0 1rem;
+}
+
+.app-header__title {
+  font-size: 1.75rem;
+  color: var(--red);
+}
+
+.app-header__subtitle {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+.app-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.app-footer {
+  text-align: center;
+  padding: 1.5rem 0;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
