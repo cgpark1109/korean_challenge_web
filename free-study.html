@@ -4,20 +4,121 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="theme-color" content="#F5F0E8">
-  <title>Learn Korean - Hangul</title>
+  <title>Free Study - Learn Korean</title>
   <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/category-study.css">
+  <style>
+    .free-study__tabs {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      margin-bottom: 1rem;
+      padding-bottom: 2px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .free-study__tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .free-study__tab {
+      flex-shrink: 0;
+      padding: 0.45rem 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-decoration: none;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      white-space: nowrap;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+
+    .free-study__tab.is-active {
+      color: var(--text-primary);
+      border-color: var(--gold);
+      background: var(--bg);
+      font-weight: 600;
+    }
+  </style>
 </head>
 <body>
+  <div class="category-page">
+    <header class="category-page__header">
+      <a href="index.html" class="category-page__back">&#8592; Home</a>
+      <h1 class="category-page__title" id="page-title">Free Study</h1>
+    </header>
+    <nav class="free-study__tabs" id="tab-list" aria-label="Study categories"></nav>
+    <div id="content" class="category-page__content"></div>
+  </div>
+
   <script src="js/app.js"></script>
+  <script src="js/hangul-data.js"></script>
+  <script src="js/tts.js"></script>
+  <script src="js/category-study.js"></script>
   <script>
-    const TAB_PAGES = {
-      consonants: 'consonants.html',
-      double: 'double-consonants.html',
-      vowels: 'vowels.html',
-      words: 'words.html',
-    };
-    const tab = App.getParam('tab', 'consonants');
-    window.location.replace(TAB_PAGES[tab] || TAB_PAGES.consonants);
+    (function () {
+      const BASIC_CONSONANT_COUNT = CategoryStudy.BASIC_CONSONANT_COUNT;
+
+      const TABS = {
+        consonants: {
+          label: '\uC790\uC74C',
+          title: '\uC790\uC74C Consonants',
+          fromPage: 'free-study.html?tab=consonants',
+          mode: 'grid',
+          getItems: () => HangulData.consonants.slice(0, BASIC_CONSONANT_COUNT),
+        },
+        double: {
+          label: '\uC30D\uC790\uC74C',
+          title: '\uC30D\uC790\uC74C Double Consonants',
+          fromPage: 'free-study.html?tab=double',
+          mode: 'grid',
+          getItems: () => HangulData.consonants.slice(BASIC_CONSONANT_COUNT),
+        },
+        vowels: {
+          label: '\uBAA8\uC74C',
+          title: '\uBAA8\uC74C Vowels',
+          fromPage: 'free-study.html?tab=vowels',
+          mode: 'grid',
+          getItems: () => HangulData.vowels,
+        },
+        compound: {
+          label: '\uBCF5\uD569 \uBAA8\uC74C',
+          title: '\uBCF5\uD569 \uBAA8\uC74C Compound Vowels',
+          fromPage: 'free-study.html?tab=compound',
+          mode: 'grid',
+          getItems: () => HangulData.compound_vowels,
+        },
+        words: {
+          label: '\uB2E8\uC5B4',
+          title: '\uAE30\uBCF8 \uB2E8\uC5B4 Basic Words',
+          fromPage: 'free-study.html?tab=words',
+          mode: 'words',
+          getItems: () => HangulData.words,
+        },
+      };
+
+      const activeTab = TABS[App.getParam('tab', 'compound')] ? App.getParam('tab', 'compound') : 'compound';
+      const config = TABS[activeTab];
+
+      const tabList = document.getElementById('tab-list');
+      Object.entries(TABS).forEach(([key, tab]) => {
+        const link = document.createElement('a');
+        link.className = 'free-study__tab' + (key === activeTab ? ' is-active' : '');
+        link.href = `free-study.html?tab=${key}`;
+        link.textContent = tab.label;
+        tabList.appendChild(link);
+      });
+
+      CategoryStudy.init({
+        title: config.title,
+        fromPage: config.fromPage,
+        mode: config.mode,
+        getItems: config.getItems,
+      });
+    })();
   </script>
 </body>
 </html>
