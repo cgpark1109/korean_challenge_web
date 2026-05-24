@@ -1,8 +1,8 @@
 /**
- * Learn Korean - Hangul ??TTS (Flutter flutter_tts ?∞ÏÑ†, Î∏åÎùº?∞Ï? Web Speech API ?¥Î∞±)
+ * Learn Korean - Hangul TTS (Flutter flutter_tts preferred, Web Speech API fallback)
  */
 const TTS = {
-  /** Flutter ?±Ï? main?êÏÑú TtsService Ï¥àÍ∏∞?? Î∏åÎùº?∞Ï???no-op. */
+  /** Flutter initializes TtsService in main; no-op in browser. */
   async init() {},
 
   _preferSlow() {
@@ -11,13 +11,13 @@ const TTS = {
 
   speak(text, slow = false) {
     const useSlow = slow || this._preferSlow();
-    // Flutter Ï±ÑÎÑê ?∞ÏÑ† ?¨Ïö©
+    // Prefer Flutter native TTS channel
     if (window.flutter_inappwebview) {
       const handler = useSlow ? 'speakSlow' : 'speakText';
       window.flutter_inappwebview.callHandler(handler, text);
       return;
     }
-    // Î∏åÎùº?∞Ï? ?åÏä§?∏Ïö© Web Speech API ?¥Î∞±
+    // Browser fallback: Web Speech API
     if ('speechSynthesis' in window) {
       const utt = new SpeechSynthesisUtterance(text);
       utt.lang = 'ko-KR';

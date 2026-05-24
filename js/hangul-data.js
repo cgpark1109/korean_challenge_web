@@ -133,7 +133,7 @@ const HangulData = {
     { id: "w_water", char: "물", roman: "mul", meaning: "Water" },
     { id: "w_rice", char: "밥", roman: "bap", meaning: "Rice / Meal" },
     { id: "w_home", char: "집", roman: "jip", meaning: "Home / House" },
-    { id: "w_school", char: "학굝", roman: "hakgyo", meaning: "School" },
+    { id: "w_school", char: "학교", roman: "hakgyo", meaning: "School" },
     { id: "w_friend", char: "친구", roman: "chingu", meaning: "Friend" },
     { id: "w_love", char: "사랑", roman: "sarang", meaning: "Love" },
     {
@@ -144,7 +144,7 @@ const HangulData = {
     },
     {
       id: "w_thanks",
-      char: "객사합니다",
+      char: "감사합니다",
       roman: "gamsahamnida",
       meaning: "Thank you (formal)",
     },
@@ -177,7 +177,7 @@ const HangulData = {
       char: "아름답다",
       roman: "areumdapda",
       meaning: "Beautiful",
-    },
+    }
   ],
 
   syllables: [

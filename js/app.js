@@ -1,4 +1,4 @@
-// Flutter WebView 접근 체크
+// Flutter WebView access check
 function checkAppAccess() {
   if (typeof window.flutter_inappwebview === 'undefined') {
     document.addEventListener('DOMContentLoaded', () => {
@@ -17,7 +17,7 @@ function checkAppAccess() {
           text-align: center;
           padding: 40px;
         ">
-          <p style="font-size: 48px; margin-bottom: 16px;">🔒</p>
+          <p style="font-size: 48px; margin-bottom: 16px;">\uD83D\uDD12</p>
           <h2 style="font-size: 20px; margin-bottom: 12px;">
             App Only
           </h2>
@@ -38,17 +38,17 @@ checkAppAccess();
 
 // Flutter WebView bridge helpers
 const FlutterBridge = {
-  // ????? ????
+  // Save stage progress
   saveProgress(stageId, stars, score) {
     if (window.flutter_inappwebview) {
       window.flutter_inappwebview.callHandler('saveProgress', stageId, stars, score);
     }
-    // ????? localStorage ??
+    // Fallback: localStorage when not in Flutter
     const key = `stage_${stageId}`;
     localStorage.setItem(key, JSON.stringify({ stars, score }));
   },
 
-  // ????? ?????
+  // Load stage progress
   async getProgress() {
     if (window.flutter_inappwebview) {
       const result = await window.flutter_inappwebview.callHandler('getProgress');
@@ -60,7 +60,7 @@ const FlutterBridge = {
         }
       }
     }
-    // Flutter ??? ??localStorage??? ????? (????
+    // Fallback: read progress from localStorage
     const progress = {};
     for (let i = 1; i <= 8; i++) {
       const data = localStorage.getItem(`stage_${i}`);
@@ -69,7 +69,7 @@ const FlutterBridge = {
     return progress;
   },
 
-  // ???? ????????URL ??? (Privacy Policy ??
+  // Open external URL (e.g. Privacy Policy)
   openExternalUrl(url) {
     if (window.flutter_inappwebview) {
       window.flutter_inappwebview.callHandler('openExternalUrl', url);
@@ -79,7 +79,7 @@ const FlutterBridge = {
   },
 };
 
-// ???? ??? ???
+// In-app page navigation
 const navigate = (page, params = {}) => {
   const filtered = Object.fromEntries(
     Object.entries(params).filter(([, v]) => v != null && v !== '')
@@ -99,12 +99,12 @@ function navigateInstant(url) {
   window.location.assign(url);
 }
 
-/** HTML ??????? ?????? ?? API */
+/** Shared HTML page helpers */
 const App = {
   FlutterBridge,
   navigate,
 
-  /** ??? ??? */
+  /** Open settings page */
   navigateToSettings() {
     navigate('settings.html');
   },
