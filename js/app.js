@@ -32,6 +32,26 @@ function checkAppAccess() {
 }
 checkAppAccess();
 
+function showTtsError() {
+  const toast = document.createElement('div');
+  toast.style.cssText = `
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(61,43,26,0.9);
+    color: #F5F0E8;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 13px;
+    z-index: 9999;
+    white-space: nowrap;
+  `;
+  toast.textContent = '⚠️ Please install Google TTS for Korean audio';
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 3000);
+}
+
 /**
  * Learn Korean - Hangul data bridge + Flutter / Web shared helpers
  */
