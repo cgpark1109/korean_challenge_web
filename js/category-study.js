@@ -28,7 +28,7 @@ const CategoryStudy = (() => {
       btnTts.className = 'category-page__icon-btn';
       btnTts.setAttribute('aria-label', `Listen ${item.char}`);
       btnTts.textContent = '\uD83D\uDD0A';
-      btnTts.addEventListener('click', () => TTS.speak(item.char));
+      btnTts.addEventListener('click', () => TTS.speakItem(item));
 
       const linkStroke = document.createElement('a');
       linkStroke.className = 'category-page__icon-btn';
@@ -76,7 +76,7 @@ const CategoryStudy = (() => {
       btnTts.className = 'category-page__icon-btn';
       btnTts.setAttribute('aria-label', `Listen ${item.char}`);
       btnTts.textContent = '\uD83D\uDD0A';
-      btnTts.addEventListener('click', () => TTS.speak(item.char));
+      btnTts.addEventListener('click', () => TTS.speakItem(item));
 
       body.appendChild(char);
       body.appendChild(roman);

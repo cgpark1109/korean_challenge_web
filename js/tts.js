@@ -27,14 +27,44 @@ function notifyTtsError() {
 }
 
 const TTS = {
-  /** Flutter initializes TtsService in main; no-op in browser. */
-  async init() {},
+  _koreanVoice: null,
+
+  /** Flutter initializes TtsService in main; prime Web Speech voices in browser. */
+  async init() {
+    this._initWebVoices();
+  },
+
+  _initWebVoices() {
+    if (!('speechSynthesis' in window)) return;
+
+    const pickVoice = () => {
+      const voices = speechSynthesis.getVoices();
+      this._koreanVoice =
+        voices.find((v) => v.lang === 'ko-KR') ||
+        voices.find((v) => v.lang.replace('_', '-').startsWith('ko')) ||
+        null;
+    };
+
+    pickVoice();
+    speechSynthesis.addEventListener('voiceschanged', pickVoice);
+  },
+
+  _resolveText(textOrItem) {
+    if (typeof HangulData !== 'undefined' && HangulData.getSpeakText) {
+      return HangulData.getSpeakText(textOrItem);
+    }
+    if (typeof textOrItem === 'string') return textOrItem;
+    return textOrItem?.char || '';
+  },
 
   _preferSlow() {
     return localStorage.getItem('ttsSpeed') === 'slow';
   },
 
-  async speak(text, slow = false) {
+  async speak(textOrItem, slow = false) {
+    const text = this._resolveText(textOrItem);
+    if (!text) return;
+
     const useSlow = slow || this._preferSlow();
     // Prefer Flutter native TTS channel
     if (window.flutter_inappwebview) {
@@ -54,6 +84,7 @@ const TTS = {
     if ('speechSynthesis' in window) {
       const utt = new SpeechSynthesisUtterance(text);
       utt.lang = 'ko-KR';
+      if (this._koreanVoice) utt.voice = this._koreanVoice;
       utt.rate = useSlow ? 0.4 : 0.8;
       speechSynthesis.cancel();
       speechSynthesis.speak(utt);
@@ -62,8 +93,13 @@ const TTS = {
 
     notifyTtsError();
   },
-  speakSlow(text) {
-    this.speak(text, true);
+
+  speakItem(item, slow = false) {
+    return this.speak(item, slow);
+  },
+
+  speakSlow(textOrItem) {
+    this.speak(textOrItem, true);
   },
   stop() {
     if (window.flutter_inappwebview) {

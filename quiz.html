@@ -275,9 +275,9 @@
               <button type="button" class="quiz__listen-btn" id="btn-play-sound" aria-label="Play sound">&#128266;</button>
               <p class="quiz__listen-text">Which letter makes this sound?</p>
             </div>`;
-          setTimeout(() => TTS.speak(item.char), 200);
+          setTimeout(() => TTS.speakItem(item), 200);
           document.getElementById('btn-play-sound')?.addEventListener('click', () => {
-            TTS.speak(item.char);
+            TTS.speakItem(item);
           });
         } else {
           promptArea.innerHTML = `<p class="quiz__meaning">${item.meaning}</p>`;

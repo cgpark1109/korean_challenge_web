@@ -2,6 +2,51 @@
 /**
  * Learn Korean - Hangul consonant / vowel / word / stage data
  */
+const JAMO_SPEAK = {
+  // Consonants: letter names (기역, 니은, …)
+  "\u3131": "\uAE30\uC5ED",
+  "\u3134": "\uB2C8\uC740",
+  "\u3137": "\uB514\uADFF",
+  "\u3139": "\uB9AC\uC744",
+  "\u3141": "\uBBF8\uC74C",
+  "\u3142": "\uBE44\uC74D",
+  "\u3145": "\uC2DC\uC637",
+  "\u3147": "\uC774\uC751",
+  "\u3148": "\uC9C0\uC752",
+  "\u314A": "\uCE58\uC753",
+  "\u314B": "\uD0A4\uC754",
+  "\u314C": "\uD2F0\uC755",
+  "\u314D": "\uD53C\uC756",
+  "\u314E": "\uD788\uC757",
+  "\u3132": "\uC30D\uAE30\uC5ED",
+  "\u3138": "\uC30D\uB514\uADFF",
+  "\u3143": "\uC30D\uBE44\uC74D",
+  "\u3146": "\uC30D\uC2DC\uC637",
+  "\u3149": "\uC30D\uC9C0\uC752",
+  // Vowels: vowel sounds (아, 어, …)
+  "\u314F": "\uC544",
+  "\u3151": "\uC57C",
+  "\u3153": "\uC5B4",
+  "\u3155": "\uC5EC",
+  "\u3157": "\uC624",
+  "\u315B": "\uC694",
+  "\u315C": "\uC6B0",
+  "\u3160": "\uC720",
+  "\u3161": "\uC73C",
+  "\u3163": "\uC774",
+  "\u3150": "\uC560",
+  "\u3152": "\uC600",
+  "\u3154": "\uC5D0",
+  "\u3156": "\uC608",
+  "\u3158": "\uC654",
+  "\u3159": "\uC648",
+  "\u315A": "\uC678",
+  "\u315D": "\uC6CC",
+  "\u315E": "\uC6E8",
+  "\u315F": "\uC704",
+  "\u3162": "\uC758",
+};
+
 const HangulData = {
   vowels: [
     { id: "v_a", char: "\u314F", roman: "a", sound: "Like 'a' in father" },
@@ -288,6 +333,19 @@ const HangulData = {
       items: () => [...HangulData.syllables, ...HangulData.words.slice(0, 5)],
     },
   ],
+
+  /** TTS text: consonants use letter names (기역), vowels use sounds (아), words as written. */
+  getSpeakText(itemOrChar) {
+    if (!itemOrChar) return "";
+    if (typeof itemOrChar === "string") {
+      return JAMO_SPEAK[itemOrChar] || itemOrChar;
+    }
+    if (itemOrChar.speak) return itemOrChar.speak;
+    const ch = itemOrChar.char || "";
+    if (!ch) return "";
+    if (itemOrChar.meaning) return ch;
+    return JAMO_SPEAK[ch] || ch;
+  },
 
   getLabel(item) {
     if (!item) return "";

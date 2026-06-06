@@ -170,7 +170,7 @@
       });
 
       document.getElementById('btn-listen').addEventListener('click', () => {
-        TTS.speak(item.char);
+        TTS.speakItem(item);
       });
 
       document.getElementById('btn-done').addEventListener('click', () => {
@@ -185,7 +185,7 @@
       });
 
       await TTS.init();
-      TTS.speak(item.char);
+      TTS.speakItem(item);
     })();
   </script>
 </body>
