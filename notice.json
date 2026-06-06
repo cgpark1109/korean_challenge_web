@@ -8,14 +8,14 @@
   },
   "popup": {
     "active": true,
-    "title": "Welcome!",
-    "message": "Learn Korean - Hangul is now available!\nMaster consonants, vowels, and basic words step by step.",
-    "button": "Let's start!",
-    "version": "1.0"
+    "title": "30 New Words Added!",
+    "message": "We added 30 new basic words!\nLearn family, food, places, and everyday expressions.\nBasic Words now has 60 words in total.",
+    "button": "Check them out!",
+    "version": "1.1"
   },
   "banner": {
     "active": true,
-    "message": "🎉 Now available! Start learning Hangul today.",
-    "link": ""
+    "message": "📚 30 new basic words added! Family, food, travel & more — now 60 words total.",
+    "link": "words.html"
   }
 }
