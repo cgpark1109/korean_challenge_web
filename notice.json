@@ -8,14 +8,14 @@
   },
   "popup": {
     "active": true,
-    "title": "30 New Words Added!",
-    "message": "We added 30 new basic words!\nLearn family, food, places, and everyday expressions.\nBasic Words now has 60 words in total.",
+    "title": "40 New Words Added!",
+    "message": "We added 40 new basic words!\nLearn time, body, transport, places, and daily life vocabulary.\nBasic Words now has 100 words in total.",
     "button": "Check them out!",
-    "version": "1.1"
+    "version": "1.2"
   },
   "banner": {
     "active": true,
-    "message": "📚 30 new basic words added! Family, food, travel & more — now 60 words total.",
+    "message": "📚 40 new basic words added! Time, body, transport & more — now 100 words total.",
     "link": "words.html"
   }
 }
