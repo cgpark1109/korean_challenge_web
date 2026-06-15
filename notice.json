@@ -8,14 +8,14 @@
   },
   "popup": {
     "active": true,
-    "title": "40 New Words — 220 Total!",
-    "message": "We added 40 new basic words!\nLearn weekdays, seasons, meals, transport, and polite expressions.\nBasic Words now has 220 words in total.",
+    "title": "40 New Words — 260 Total!",
+    "message": "We added 40 new basic words!\nLearn body parts, colors, family, travel, animals, and daily expressions.\nBasic Words now has 260 words in total.",
     "button": "Check them out!",
-    "version": "1.5"
+    "version": "1.6"
   },
   "banner": {
     "active": true,
-    "message": "📚 40 new words added! Weekdays, seasons, food & phrases — now 220 words total.",
+    "message": "📚 40 new words added! Body, colors, family, travel & phrases — now 260 words total.",
     "link": "words.html"
   }
 }
