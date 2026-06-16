@@ -8,14 +8,14 @@
   },
   "popup": {
     "active": true,
-    "title": "40 New Words — 260 Total!",
-    "message": "We added 40 new basic words!\nLearn body parts, colors, family, travel, animals, and daily expressions.\nBasic Words now has 260 words in total.",
+    "title": "40 New Words — 300 Total!",
+    "message": "We added 40 new basic words!\nLearn kitchen items, animals, home appliances, directions, and useful expressions.\nBasic Words now has 300 words in total.",
     "button": "Check them out!",
-    "version": "1.6"
+    "version": "1.7"
   },
   "banner": {
     "active": true,
-    "message": "📚 40 new words added! Body, colors, family, travel & phrases — now 260 words total.",
+    "message": "📚 40 new words added! Kitchen, animals, home & useful phrases — now 300 words total.",
     "link": "words.html"
   }
 }
