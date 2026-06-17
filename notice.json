@@ -8,14 +8,14 @@
   },
   "popup": {
     "active": true,
-    "title": "40 New Words — 300 Total!",
-    "message": "We added 40 new basic words!\nLearn kitchen items, animals, home appliances, directions, and useful expressions.\nBasic Words now has 300 words in total.",
+    "title": "40 New Words — 340 Total!",
+    "message": "We added 40 new basic words!\nLearn furniture, directions, feelings, more food, and useful verbs.\nBasic Words now has 340 words in total.",
     "button": "Check them out!",
-    "version": "1.7"
+    "version": "1.8"
   },
   "banner": {
     "active": true,
-    "message": "📚 40 new words added! Kitchen, animals, home & useful phrases — now 300 words total.",
+    "message": "📚 40 new words added! Furniture, directions, feelings & more — now 340 words total.",
     "link": "words.html"
   }
 }
