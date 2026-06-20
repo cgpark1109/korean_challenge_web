@@ -8,14 +8,14 @@
   },
   "popup": {
     "active": true,
-    "title": "40 New Words — 420 Total!",
-    "message": "We added 40 new basic words!\nLearn food, clothing, daily verbs, jobs, and useful expressions.\nBasic Words now has 420 words in total.",
+    "title": "80 New Words — 500 Total!",
+    "message": "We added 80 new basic words!\nReach 500 words with nature, food, emotions, verbs, home, jobs, and daily expressions.\nBasic Words now has 500 words in total.",
     "button": "Check them out!",
-    "version": "2.0"
+    "version": "2.1"
   },
   "banner": {
     "active": true,
-    "message": "📚 40 new words added! Food, clothing, verbs, jobs & more — now 420 words total.",
+    "message": "📚 80 new words added! Now 500 total — nature, food, verbs, jobs & more!",
     "link": "words.html"
   }
 }
