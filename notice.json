@@ -8,14 +8,14 @@
   },
   "popup": {
     "active": true,
-    "title": "100 New Words — 800 Total!",
-    "message": "We added 100 new basic words on June 23!\nReach 800 words with family, food, animals, verbs, shopping, sports, and daily expressions.\nBasic Words now has 800 words in total.",
+    "title": "100 New Words — 900 Total!",
+    "message": "We added 100 new basic words on June 25!\nReach 900 words with family, food, animals, verbs, health, tech, sports, and daily expressions.\nBasic Words now has 900 words in total.",
     "button": "Check them out!",
-    "version": "2.4"
+    "version": "2.5"
   },
   "banner": {
     "active": true,
-    "message": "📚 June 23 update — 100 new words! Now 800 total — food, sports, shopping & more!",
+    "message": "📚 June 25 update — 100 new words! Now 900 total — health, tech, food & more!",
     "link": "words.html"
   }
 }
