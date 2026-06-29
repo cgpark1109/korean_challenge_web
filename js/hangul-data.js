@@ -123,26 +123,44 @@ function composeSyllable(choChar, jungChar) {
   return String.fromCharCode(0xac00 + cho * 588 + jung * 28);
 }
 
+function buildSyllableItem(consonant, vowel) {
+  const char = composeSyllable(consonant.char, vowel.char);
+  if (!char) return null;
+  const initial = INITIAL_ROMAN[consonant.id] ?? "";
+  return {
+    id: `s_${consonant.id}_${vowel.id}`,
+    char,
+    roman: initial + vowel.roman,
+    sound: `${consonant.char} + ${vowel.char}`,
+  };
+}
+
 function buildAllSyllables(consonants, vowels, compoundVowels) {
   const allVowels = [...vowels, ...compoundVowels];
   const sortedConsonants = [...consonants].sort(
     (a, b) => CHO_INDEX[a.char] - CHO_INDEX[b.char],
   );
   const items = [];
-  for (const vowel of allVowels) {
-    for (const consonant of sortedConsonants) {
-      const char = composeSyllable(consonant.char, vowel.char);
-      if (!char) continue;
-      const initial = INITIAL_ROMAN[consonant.id] ?? "";
-      items.push({
-        id: `s_${consonant.id}_${vowel.id}`,
-        char,
-        roman: initial + vowel.roman,
-        sound: `${consonant.char} + ${vowel.char}`,
-      });
+  for (const consonant of sortedConsonants) {
+    for (const vowel of allVowels) {
+      const item = buildSyllableItem(consonant, vowel);
+      if (item) items.push(item);
     }
   }
   return items;
+}
+
+function buildSyllablesGroupedByConsonant(consonants, vowels, compoundVowels) {
+  const allVowels = [...vowels, ...compoundVowels];
+  const sortedConsonants = [...consonants].sort(
+    (a, b) => CHO_INDEX[a.char] - CHO_INDEX[b.char],
+  );
+  return sortedConsonants.map((consonant) => ({
+    consonant,
+    items: allVowels
+      .map((vowel) => buildSyllableItem(consonant, vowel))
+      .filter(Boolean),
+  }));
 }
 
 const HangulData = {
@@ -1499,6 +1517,7 @@ const HangulData = {
   ],
 
   _allSyllablesCache: null,
+  _syllablesGroupedCache: null,
 
   getAllSyllables() {
     if (!this._allSyllablesCache) {
@@ -1509,6 +1528,17 @@ const HangulData = {
       );
     }
     return this._allSyllablesCache;
+  },
+
+  getSyllablesGroupedByConsonant() {
+    if (!this._syllablesGroupedCache) {
+      this._syllablesGroupedCache = buildSyllablesGroupedByConsonant(
+        this.consonants,
+        this.vowels,
+        this.compound_vowels,
+      );
+    }
+    return this._syllablesGroupedCache;
   },
 
   get syllables() {

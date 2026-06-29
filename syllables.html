@@ -23,8 +23,8 @@
     CategoryStudy.init({
       title: '\uAC00\uB098\uB2E4\uB77C Syllables',
       fromPage: 'syllables.html',
-      mode: 'grid',
-      getItems: () => HangulData.getAllSyllables(),
+      mode: 'syllable-rows',
+      getGroups: () => HangulData.getSyllablesGroupedByConsonant(),
     });
   </script>
 </body>

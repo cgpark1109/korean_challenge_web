@@ -88,8 +88,8 @@
           label: '\uAC00\uB098\uB2E4\uB77C',
           title: '\uAC00\uB098\uB2E4\uB77C Syllables',
           fromPage: 'free-study.html?tab=syllables',
-          mode: 'grid',
-          getItems: () => HangulData.getAllSyllables(),
+          mode: 'syllable-rows',
+          getGroups: () => HangulData.getSyllablesGroupedByConsonant(),
         },
         compound: {
           label: '\uBCF5\uD569 \uBAA8\uC74C',
@@ -124,6 +124,7 @@
         fromPage: config.fromPage,
         mode: config.mode,
         getItems: config.getItems,
+        getGroups: config.getGroups,
       });
     })();
   </script>
