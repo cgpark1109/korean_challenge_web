@@ -48,6 +48,103 @@ const JAMO_SPEAK = {
   "\u3162": "\uC758",
 };
 
+const CHO_INDEX = {
+  "\u3131": 0,
+  "\u3132": 1,
+  "\u3134": 2,
+  "\u3137": 3,
+  "\u3138": 4,
+  "\u3139": 5,
+  "\u3141": 6,
+  "\u3142": 7,
+  "\u3143": 8,
+  "\u3145": 9,
+  "\u3146": 10,
+  "\u3147": 11,
+  "\u3148": 12,
+  "\u3149": 13,
+  "\u314A": 14,
+  "\u314B": 15,
+  "\u314C": 16,
+  "\u314D": 17,
+  "\u314E": 18,
+};
+
+const JUNG_INDEX = {
+  "\u314F": 0,
+  "\u3150": 1,
+  "\u3151": 2,
+  "\u3152": 3,
+  "\u3153": 4,
+  "\u3154": 5,
+  "\u3155": 6,
+  "\u3156": 7,
+  "\u3157": 8,
+  "\u3158": 9,
+  "\u3159": 10,
+  "\u315A": 11,
+  "\u315B": 12,
+  "\u315C": 13,
+  "\u315D": 14,
+  "\u315E": 15,
+  "\u315F": 16,
+  "\u3160": 17,
+  "\u3161": 18,
+  "\u3162": 19,
+  "\u3163": 20,
+};
+
+const INITIAL_ROMAN = {
+  c_g: "g",
+  c_n: "n",
+  c_d: "d",
+  c_r: "r",
+  c_m: "m",
+  c_b: "b",
+  c_s: "s",
+  c_ng: "",
+  c_j: "j",
+  c_ch: "ch",
+  c_k: "k",
+  c_t: "t",
+  c_p: "p",
+  c_h: "h",
+  c_gg: "kk",
+  c_dd: "tt",
+  c_bb: "pp",
+  c_ss: "ss",
+  c_jj: "jj",
+};
+
+function composeSyllable(choChar, jungChar) {
+  const cho = CHO_INDEX[choChar];
+  const jung = JUNG_INDEX[jungChar];
+  if (cho === undefined || jung === undefined) return "";
+  return String.fromCharCode(0xac00 + cho * 588 + jung * 28);
+}
+
+function buildAllSyllables(consonants, vowels, compoundVowels) {
+  const allVowels = [...vowels, ...compoundVowels];
+  const sortedConsonants = [...consonants].sort(
+    (a, b) => CHO_INDEX[a.char] - CHO_INDEX[b.char],
+  );
+  const items = [];
+  for (const vowel of allVowels) {
+    for (const consonant of sortedConsonants) {
+      const char = composeSyllable(consonant.char, vowel.char);
+      if (!char) continue;
+      const initial = INITIAL_ROMAN[consonant.id] ?? "";
+      items.push({
+        id: `s_${consonant.id}_${vowel.id}`,
+        char,
+        roman: initial + vowel.roman,
+        sound: `${consonant.char} + ${vowel.char}`,
+      });
+    }
+  }
+  return items;
+}
+
 const HangulData = {
   vowels: [
     { id: "v_a", char: "\u314F", roman: "a", sound: "Like 'a' in father" },
@@ -1401,23 +1498,22 @@ const HangulData = {
     { id: "w_not_sure", char: "모르겠어요", roman: "moreugeseyo", meaning: "I'm not sure" },
   ],
 
-  syllables: [
-    { id: "s_ga", char: "\uAC00", roman: "ga", sound: "\u3131 + \u314F" },
-    { id: "s_na", char: "\uB098", roman: "na", sound: "\u3134 + \u314F" },
-    { id: "s_da", char: "\uB2E4", roman: "da", sound: "\u3137 + \u314F" },
-    { id: "s_ma", char: "\uB9C8", roman: "ma", sound: "\u3141 + \u314F" },
-    { id: "s_ba", char: "\uBC14", roman: "ba", sound: "\u3142 + \u314F" },
-    { id: "s_sa", char: "\uC0AC", roman: "sa", sound: "\u3145 + \u314F" },
-    { id: "s_a", char: "\uC544", roman: "a", sound: "\u3147 + \u314F" },
-    { id: "s_ja", char: "\uC790", roman: "ja", sound: "\u3148 + \u314F" },
-    { id: "s_ha", char: "\uD558", roman: "ha", sound: "\u314E + \u314F" },
-    { id: "s_go", char: "\uACE0", roman: "go", sound: "\u3131 + \u3157" },
-    { id: "s_no", char: "\uB178", roman: "no", sound: "\u3134 + \u3157" },
-    { id: "s_o", char: "\uC624", roman: "o", sound: "\u3147 + \u3157" },
-    { id: "s_gu", char: "\uAD6C", roman: "gu", sound: "\u3131 + \u315C" },
-    { id: "s_mu", char: "\uBB34", roman: "mu", sound: "\u3141 + \u315C" },
-    { id: "s_su", char: "\uC218", roman: "su", sound: "\u3145 + \u315C" },
-  ],
+  _allSyllablesCache: null,
+
+  getAllSyllables() {
+    if (!this._allSyllablesCache) {
+      this._allSyllablesCache = buildAllSyllables(
+        this.consonants,
+        this.vowels,
+        this.compound_vowels,
+      );
+    }
+    return this._allSyllablesCache;
+  },
+
+  get syllables() {
+    return this.getAllSyllables();
+  },
 
   stages: [
     {
