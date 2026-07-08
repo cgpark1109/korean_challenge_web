@@ -8,14 +8,14 @@
   },
   "popup": {
     "active": true,
-    "title": "100 New Words — 1,300 Total!",
-    "message": "We added 100 new basic words!\nReach 1,300 words with shopping, dining, transport, digital life, and more.\nBasic Words now has 1,300 words in total.",
+    "title": "100 New Words — 1,400 Total!",
+    "message": "We added 100 new basic words!\nReach 1,400 words with camping, health, sports, seafood, travel, school, and more.\nBasic Words now has 1,400 words in total.",
     "button": "Check them out!",
-    "version": "2.9"
+    "version": "3.0"
   },
   "banner": {
     "active": true,
-    "message": "🎉 Update — 1,300 words reached! 100 new words added!",
+    "message": "🎉 Update — 1,400 words reached! 100 new words added!",
     "link": "words.html"
   }
 }
