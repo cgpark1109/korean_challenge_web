@@ -870,8 +870,9 @@ a.notice-banner__text:hover { text-decoration: underline; }
 
 /* ── Quiz stages ─────────────────────────────────────────── */
 
-.stage-list { display: grid; gap: 10px; }
-@media (min-width: 720px) { .stage-list { grid-template-columns: 1fr 1fr; } }
+/* minmax(0, …) so the nowrap subtitles ellipsize instead of widening the column past the screen */
+.stage-list { display: grid; gap: 10px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 720px) { .stage-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .stage-tile {
   display: flex;
   align-items: center;
